@@ -5,12 +5,17 @@ import com.azure.identity.ClientSecretCredentialBuilder;
 import com.microsoft.graph.authentication.TokenCredentialAuthProvider;
 import com.microsoft.graph.models.*;
 import com.microsoft.graph.requests.GraphServiceClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+
+@Slf4j
+@Service
 public class EmailService implements MailService {
     @Value("${clientId}")
     private String clientId;
@@ -20,6 +25,7 @@ public class EmailService implements MailService {
 
     @Value("${tenantId}")
     private String tenantId;
+
     public void sendMail() {
         final ClientSecretCredential clientSecretCredential = new ClientSecretCredentialBuilder()
                 .clientId(clientId)
@@ -38,6 +44,8 @@ public class EmailService implements MailService {
                         .authenticationProvider(tokenCredentialAuthProvider)
                         .buildClient();
 
+        log.info("Graph service client created: {}", graphClient);
+
         Message message = new Message();
         message.subject = "Sample Subject";
         ItemBody body = new ItemBody();
@@ -49,7 +57,7 @@ public class EmailService implements MailService {
         LinkedList<Recipient> toRecipientsList = new LinkedList<Recipient>();
         Recipient toRecipients = new Recipient();
         EmailAddress emailAddress = new EmailAddress();
-        emailAddress.address = "abc@outlook.com";
+        emailAddress.address = "rajputashutosh81@gmail.com";
         toRecipients.emailAddress = emailAddress;
         toRecipientsList.add(toRecipients);
         message.toRecipients = toRecipientsList;
@@ -57,12 +65,12 @@ public class EmailService implements MailService {
         LinkedList<Recipient> ccRecipientsList = new LinkedList<Recipient>();
         Recipient ccRecipients = new Recipient();
         EmailAddress emailAddress1 = new EmailAddress();
-        emailAddress1.address = "def@outlook.com";
+        emailAddress1.address = "infection.sci@gmail.com";
         ccRecipients.emailAddress = emailAddress1;
         ccRecipientsList.add(ccRecipients);
         message.ccRecipients = ccRecipientsList;
 
-        graphClient.users("fromEmailId")
+        graphClient.users("ashutosh.rajput@trainingmug.com")
                 .sendMail(UserSendMailParameterSet
                         .newBuilder()
                         .withMessage(message)

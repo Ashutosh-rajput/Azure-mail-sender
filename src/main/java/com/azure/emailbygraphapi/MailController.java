@@ -1,10 +1,7 @@
 package com.azure.emailbygraphapi;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,17 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/mail")
 public class MailController {
-
-
     private final MailService graphService;
 
 
-
-    @PostMapping("/graph/{client}")
-    public MailResponse sendMailGraph(@PathVariable String client) {
+    @PostMapping("/graph")
+    public MailResponse sendMailGraph() {
 
         graphService.sendMail();
-        return new MailResponse(HttpStatus.OK, "Mail sent successfully to the client " + client);
+        return new MailResponse(HttpStatus.OK, "Mail sent successfully to the client ");
 
     }
 }
